@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Union Strike Folk Song</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">Union Strike Folk Song</h1>
+
+<video src="https://www.cs.tufts.edu/comp/120/butwehavethepower.mp4" id="butwehavethepower" controls></video>
+<div id="lyrics"></div>
+
+
+<script>
+	// Complete this section and create a CSS file named style.css
+	
+	let video = document.getElementById("butwehavethepower");
+	let caption = document.getElementById("lyrics");
+	
+	video.addEventListener("timeupdate", function() {
+
+		if (video.currentTime > 0 && video.currentTime < 16.5) {
+			caption.innerHTML = "Come gather round, children,<br>It's high time ye learned <br>'Bout a hero named Homer <br>And a devil named Burns."
+		}
+
+		else if (video.currentTime > 16.5 && video.currentTime < 27) {
+			caption.innerHTML = "We'll march 'till we drop<br>The girls and the fellas.<br>We'll fight 'till the death<br>Or else fold like umbrellas."
+		}
+
+		else if (video.currentTime > 37 && video.currentTime < 50) {
+			caption.innerHTML = "So we'll march day and night<br>By the big cooling tower.<br>They have the plant<br>But we have the power."
+		}
+
+		else if (video.currentTime > 52 && video.currentTime < 56) {
+			caption.innerHTML = "Lenny:<br>Now do classical gas!"
+		}
+
+		else if (video.currentTime > 70 && video.currentTime < 92) {
+			caption.innerHTML = "So we'll march day and night<br>By the big cooling tower<br>They have the plant<br>But we have the power."
+		}
+
+		else {
+			caption.innerHTML = ""
+		}
+
+	}, false);
+
+</script>
+</body>
+</html>	
