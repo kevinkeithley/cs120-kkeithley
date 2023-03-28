@@ -19,11 +19,23 @@ function initMap() {
     var initLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
     map.setCenter(initLoc);
-    map.setZoom(13);
+    map.setZoom(4);
+
+    const xhr = new XMLHttpRequest();
+    const url = 'https://jordan-marsh.herokuapp.com/rides';
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(xhr.responseText)
+      }
+    };
+
+    xhr.send("username=8SeyrexS&lat=" + position.coords.latitude + "&lng=" + position.coords.longitude);
 
     const contentString =
       '<div id= "content">' +
-      '<h2>From your location...</h2>' +
+      '<h2>From this location...</h2>' +
       '<p>The closest vehicle is</p>' +
       '<p>It is miles away</p>' +
       '</div>';
