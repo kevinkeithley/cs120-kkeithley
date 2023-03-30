@@ -23,3 +23,10 @@ New metrics:
 304 kb transferred
 1.5 MB resources
 772ms
+
+# The Ride-Hailing Service, Part 2
+I believe all aspects of the work have been implemented correctly. I could probably clean up how I did the infoWindow.
+
+Shared thoughts with Christian Widmark and Valerie (not sure what her last name is).
+
+Def took a few hours on this one. Maybe 3, 4?
