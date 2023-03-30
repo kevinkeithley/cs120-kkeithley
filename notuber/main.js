@@ -7,6 +7,9 @@ function initMap() {
 
   navigator.geolocation.getCurrentPosition(function (position) {
     var initLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var initLat = position.coords.latitude;
+    var initLng = position.coords.longitude;
+    var closestLoc;
 
     map.setCenter(initLoc);
     map.setZoom(2);
@@ -26,9 +29,11 @@ function initMap() {
         // create markers and calc shortest path
         var closestCar;
         let closestDist = 999999999;
+
         const infoWindow = new google.maps.InfoWindow();
         for (let i = 0; i < carData.length; i++) {
-          let LatLng = { lat: carData[i]['lat'], lng: carData[i]['lng'] };
+          // let LatLng = { lat: carData[i]['lat'], lng: carData[i]['lng'] };
+          let LatLng = new google.maps.LatLng(carData[i]['lat'], carData[i]['lng']);
 
           new google.maps.Marker({
             position: LatLng,
@@ -41,20 +46,16 @@ function initMap() {
           if (distToInit < closestDist) {
             closestCar = carData[i]['username'];
             closestDist = distToInit;
+            closestLoc = i;
           };
-          console.log(carData[i]);
-          console.log(`This car id is: ${carData[i]['username']}`)
-          console.log(`Distance to origin is: ${distToInit}`);
-          console.log(`The current closest distance is: ${closestDist}`);
-          console.log(`The closest car is: ${closestCar}`);
+
           var contentString =
             '<div id= "content">' +
             '<h2>From this location...</h2>' +
             `<p> The closest vehicle is ${closestCar}.</p>` +
             `<p>It is ${closestDist.toFixed(1)} miles away.</p>` +
             '</div>';
-
-          infoWindow.setContent(contentString)
+          infoWindow.setContent(contentString);
           init_marker.addListener("click", () => {
             infoWindow.close();
             infoWindow.open({
@@ -63,8 +64,27 @@ function initMap() {
             });
           });
         };
+
+        let closeCoords = '{"lat": ' + carData[closestLoc]["lat"] + ', "lng": ' + carData[closestLoc]["lng"] + '}';
+        let initCoords = '{"lat": ' + initLat + ', "lng": ' + initLng + '}';
+        const pathCoords = [
+          JSON.parse(initCoords),
+          JSON.parse(closeCoords)
+        ];
+
+        let drivePath = new google.maps.Polyline({
+          path: pathCoords,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+        });
+
+        drivePath.setMap(map);
       };
     };
+
+
 
     xhr.send("username=8SeyrexS&lat=" + position.coords.latitude + "&lng=" + position.coords.longitude);
   });
