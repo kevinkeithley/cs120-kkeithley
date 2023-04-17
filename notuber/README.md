@@ -30,3 +30,10 @@ I believe all aspects of the work have been implemented correctly. I could proba
 Shared thoughts with Christian Widmark and Valerie (not sure what her last name is).
 
 Def took a few hours on this one. Maybe 3, 4?
+
+# The Ride-Hailing Service, Part 3
+I believe all aspects of the work have been implemented correctly. I did the bare minimum on this lab XD.
+
+Shared thoughts with final project group.
+
+Probably took several hours to complete.

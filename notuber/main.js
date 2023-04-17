@@ -20,7 +20,7 @@ function initMap() {
     });
 
     const xhr = new XMLHttpRequest();
-    const url = 'https://jordan-marsh.herokuapp.com/rides';
+    const url = 'https://sleepy-atoll-74388.herokuapp.com/rides';
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function () {
