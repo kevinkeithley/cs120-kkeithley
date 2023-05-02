@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Security Analysis</title>
+</head>
+<body>
+    <h2>Introduction</h2>
+    <p>This is a security assessment of the website jordan-marsh.herokuapp.com, a web app built with Node.js and Express.
+    The goal is to identify issues related to security as well as the severity of the risk and potential fixes.</p>
+
+    <h2>Methodology</h2>
+    <p>The assessment was conducted using several tools (nmap, burpsuite, and nikto). There was also code analysis and manual testing using curl.
+    </p>
+    <h2>Abstract</h2>
+    <p>The security assessment showed several areas of vulnerabilites. There is a lack of input validation and sanitization allowing for potential
+    sql injection attacks. There are also poor access controls, allowing anybody to access resources at API endpoints.</p>
+    <h2>Black-box attempts</h2>
+        <p>NMAP scan shows two open ports, 80/tcp http and 443/tcp https. This passes the smell test so far with no goofy ports available.
+        </p>
+        <p>Additionally, burpsuite was used to look at the request and response headers and content. Nothing immediately looked suspicious, other than
+        naming a server Cowboy XD.</p>
+        <img src="img\burpSuiteResponseHeaders.PNG">
+        <p>I also ran a nikto scan for each of the open ports.</p>
+        <ul>
+            <li><a href="basicnikto.html">Nikto scan of port 80</a></li>
+            <li><a href="sslnikto.html">Nikto scan of port 443</a></li>
+        </ul>
+        <p>Again nothing particularly nefarious stuck out, with most of the items noting potentially abnormal header options.</p>
+    <h2>Code review</h2>
+    <p>The next step involved manual review of the code as well as manual testing using curl. The following vulnerabilites were noted.</p>
+    <ol>
+        <li>For the client connection, ssl has rejectUnauthorized set to false. This is ok for development purposes, but in a production environment,
+        it would be best to set it to true to ensure that the connection is secure. <br><strong>Security risk: medium</strong> <br>As this is a public facing
+        app, the risk is much more signficant than in a secured environment.<br>This can be fixed by switching the flag to true.</li>
+        <li>The CORS policy is set to '*', which is risky as it allows any website access to the resources at that route.<br><strong>Security risk: medium</strong>
+        <br>As this app would likely be receiving requests from a not-uber app, it would be worth only accepting requests from say the not-uber.com address.</li>
+        <li>Unsanitized input allowing for sql injection and cross site scripting. /rides and /update both allow unsanitized inputs for username. This was used to
+        perform an attack quite easily.<img src="img/XSS.PNG"><strong>Security risk: high</strong><br>The validator library is already used to enforce
+        float values for lat and lng. There is no reason to not extend this functionality to all inputs.</li>
+    </ol>
+    <h2>Conclusion</h2>
+    <p>This app contains several security vulnerabilities, with some that require immediate attention. The ability for sql injection attacks
+    is particularly high, and needs immediate priority attention. Proper input validation and sanitization would be a large step forward for this app.</p>
+
+</body>
+</html>
